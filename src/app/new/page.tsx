@@ -1,37 +1,46 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState, useTransition } from 'react';
 import { ZodError, fromZodError } from 'zod-validation-error';
 
 import { TaskSchema } from '@/validations';
 import { createTask } from '../actions';
 import { useRouter } from 'next/navigation';
+import { z } from 'zod';
+
+type FlattenedErrors = z.inferFlattenedErrors<typeof TaskSchema>;
 
 export default function CreateNewTask() {
     const router = useRouter();
-    const [error, setError] = useState<string | null>(null);
     const [fileName, setFileName] = useState<string | null>(null);
+    const [pending, startTransition] = useTransition();
+    const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
 
     const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        try {
-            const formData = new FormData(event.currentTarget);
-            const task = Object.fromEntries(formData.entries());
-            console.log(task);
-            const parsed = TaskSchema.parse(task);
+        const formData = new FormData(event.currentTarget);
+        const task = Object.fromEntries(formData.entries());
+        const result = TaskSchema.safeParse(task);
 
-            await createTask(parsed);
-            router.replace('/');
-        } catch (err) {
-            const validationError = fromZodError(err as ZodError);
-            setError(validationError.toString());
+        if (result.success) {
+            setErrors(null);
+
+            try {
+                startTransition(() => createTask(formData));
+                router.replace('/');
+            } catch (err) {
+                throw err;
+            }
+        } else {
+            const errors: FlattenedErrors | null = result.error.flatten();
+            setErrors(errors && errors.fieldErrors);
         }
     };
 
     const onChange = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setError(null);
+        setErrors(null);
     };
 
     return (
@@ -49,6 +58,7 @@ export default function CreateNewTask() {
                     type="text"
                     name="name"
                 />
+                {errors?.name && <div style={{ color: 'red' }}>{errors?.name[0]}</div>}
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
                 <label
@@ -62,6 +72,7 @@ export default function CreateNewTask() {
                     id="grid-textarea"
                     name="description"
                 />
+                {errors?.description && <div style={{ color: 'red' }}>{errors?.description[0]}</div>}
             </div>
             <div className="flex flex-wrap flex-col -mx-3 mb-6">
                 <label
@@ -97,6 +108,7 @@ export default function CreateNewTask() {
                         onChange={(e) => e.target.files && setFileName(e.target.files[0].name)}
                     />
                 </label>
+                {errors?.file && <div style={{ color: 'red' }}>{errors?.file[0]}</div>}
                 <div className="h-4">{fileName}</div>
             </div>
             <button
@@ -105,7 +117,6 @@ export default function CreateNewTask() {
             >
                 Create
             </button>
-            {error && <div style={{ color: 'red' }}>{error}</div>}
         </form>
     );
 }

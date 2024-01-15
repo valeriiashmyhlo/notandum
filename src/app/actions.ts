@@ -2,8 +2,8 @@
 
 import { TaskSchema } from '@/validations';
 
-export async function createTask(task: { [key: string]: any }) {
-    const validated = TaskSchema.parse(task);
+export async function createTask(formData: FormData) {
+    const validated = TaskSchema.parse(Object.fromEntries(formData.entries()));
     const body = JSON.stringify(validated);
     const response = await fetch('http://127.0.0.1:8000/task/create', {
         method: 'PUT',
