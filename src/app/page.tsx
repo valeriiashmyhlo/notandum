@@ -1,18 +1,29 @@
+import { Button } from './componnets/Button';
 import Link from 'next/link';
+import { Task } from './types';
 import { TaskList } from './componnets/TaskList';
 
-export default function Home() {
+const getTaskList = async () => {
+    const res = await fetch('http://127.0.0.1:8000/task/list');
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch data');
+    }
+
+    return await res.json();
+};
+
+export default async function Home() {
+    const { data } = await getTaskList();
+
     return (
         <div className="w-full">
             <div className="flex w-full justify-center mb-16">
-                <Link
-                    href="/new"
-                    className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
-                >
-                    Create new task
+                <Link href="/new">
+                    <Button>Create new task</Button>
                 </Link>
             </div>
-            <TaskList />
+            <TaskList data={data} />
         </div>
     );
 }
