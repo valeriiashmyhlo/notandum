@@ -3,22 +3,18 @@
 import { Task } from '../../types';
 import { useEffect, useState } from 'react';
 import { getTask } from '@/app/actions';
+import Link from 'next/link';
 
-export default function Task({ params }: { params: { id: string } }) {
-    const [task, setTask] = useState<Task | null>(null);
+export default function Task({ params }: { params: { task_id: string } }) {
+    const [task, setTask] = useState<Task>();
 
     useEffect(() => {
-        console.log(params.id);
         const fetchTask = async (id: string) => {
-            try {
-                const task = await getTask(id);
-                setTask(task);
-            } catch (err) {
-                throw new Error('Failed to fetch task');
-            }
+            const task = await getTask(id);
+            setTask(task);
         };
 
-        fetchTask(params.id);
+        fetchTask(params.task_id);
     }, []);
 
     if (!task) {
@@ -39,11 +35,13 @@ export default function Task({ params }: { params: { id: string } }) {
                     ></div>
                 </div>
             </form>
-            <div className="text-sm font-medium text-gray-500">
-                {task.records.map((record) => (
-                    <h1>{record.content}</h1>
-                ))}
-            </div>
+
+            <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Records:</h2>
+            {task.next_record_id ? (
+                <Link href={`/task/${task.id}/record/${task.next_record_id}`}>Start</Link>
+            ) : (
+                <div>Annotated records: ...</div>
+            )}
         </div>
     );
 }

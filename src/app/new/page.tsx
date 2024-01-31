@@ -52,9 +52,12 @@ export default function CreateNewTask() {
                     ''
                 )}
             </div>
-            <Button type="submit" className="-mx-3">
-                Create
-            </Button>
+            <div className="flex justify-between">
+                <Button type="submit" className="-mx-3">
+                    Create
+                </Button>
+                <div style={{ color: 'red' }}>{state.message}</div>
+            </div>
         </form>
     );
 }

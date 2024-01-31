@@ -21,3 +21,12 @@ export const TaskSchema = z.object({
         .refine((file) => file?.size > 0, `File is required`)
         .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`),
 });
+
+export const LabelSchema = z.object({
+    record_id: z.string().uuid({ message: 'Invalid UUID' }),
+    content: z
+        .string({
+            required_error: required_error,
+        })
+        .min(1, 'Value is too short'),
+});
