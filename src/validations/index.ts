@@ -15,7 +15,8 @@ export const TaskSchema = z.object({
         .string({
             required_error: required_error,
         })
-        .min(1, 'Value is too short'),
+        .min(1, 'Value is too short')
+        .max(200, 'Value is too long'),
     file: z
         .any()
         .refine((file) => file?.size > 0, `File is required`)

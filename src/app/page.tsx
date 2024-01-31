@@ -13,7 +13,12 @@ export default async function Home() {
                     <Button>Create new task</Button>
                 </Link>
             </div>
-            {data.length === 0 ? 'Empty list' : <TaskList data={data} />}
+
+            {data.length === 0 ? (
+                <div className="relative overflow-x-auto">No tasks created yet</div>
+            ) : (
+                <TaskList data={data} />
+            )}
         </div>
     );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 import { Button } from '../componnets/Button';
 import { Input } from '../componnets/Input';
@@ -15,20 +15,25 @@ const initialState = {
 
 export default function CreateNewTask() {
     const [fileName, setFileName] = useState<string | null>(null);
-    const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
-
+    const [errors, setErrors] = useState<Record<string, string[]>>(initialState.error);
     const [state, formAction] = useFormState(createTask, initialState);
+
+    useEffect(() => {
+        if (state?.error) {
+            setErrors({ ...errors, ...state.error });
+        }
+    }, [state]);
 
     const onChange = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setErrors(null);
+        setErrors(initialState.error);
     };
 
     return (
         <form action={formAction} onChange={onChange} id="createTask" className="w-full max-w-lg">
             <div className="flex flex-wrap -mx-3 mb-6">
                 <Input type="text" name="name" label="Name" placeholder="Task name..." required={true} />
-                {errors?.name && <div style={{ color: 'red' }}>{errors?.name[0]}</div>}
+                <div className="h-4 text-red-600">{errors?.name ? errors?.name[0] : ''}</div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
                 <Input
@@ -39,24 +44,19 @@ export default function CreateNewTask() {
                     required={true}
                     componentType="textarea"
                 />
-                {errors?.description && <div style={{ color: 'red' }}>{errors?.description[0]}</div>}
+                <div className="h-4 text-red-600">{errors?.description[0]}</div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
                 <UploadFile onChange={setFileName} />
-                {/* TODO:refactor */}
-                {fileName ? (
-                    <div className="h-4">{fileName}</div>
-                ) : state.error?.file ? (
-                    <div style={{ color: 'red' }}>{state.error.file[0]}</div>
-                ) : (
-                    ''
-                )}
+                <div className={`h-4 ${errors.file[0] ? 'text-red-600' : ''}`}>
+                    {fileName ? fileName : errors.file[0]}
+                </div>
             </div>
             <div className="flex justify-between">
                 <Button type="submit" className="-mx-3">
                     Create
                 </Button>
-                <div style={{ color: 'red' }}>{state.message}</div>
+                {/* <div style={{ color: 'red' }}>{state.message}</div> */}
             </div>
         </form>
     );

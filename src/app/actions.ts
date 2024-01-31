@@ -12,7 +12,7 @@ type TaskPrevState = {
     error?: TaskErrors['fieldErrors'];
 };
 
-export async function createTask(prevState: TaskPrevState, formData: FormData) {
+export async function createTask(prevState: TaskPrevState | undefined, formData: FormData) {
     const task = Object.fromEntries(formData.entries());
     const result = TaskSchema.safeParse(task);
 
@@ -22,16 +22,17 @@ export async function createTask(prevState: TaskPrevState, formData: FormData) {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/task/create', {
+        await fetch('http://127.0.0.1:8000/task/create', {
             method: 'POST',
             body: formData,
         });
-        await response.json();
-    } catch {
-        return { message: 'Server error: Failed to fetch data' };
+
+        revalidatePath('/');
+    } catch (e) {
+        console.log(e);
+        return { message: 'Server error: Failed to create a task' };
     }
 
-    revalidatePath('/');
     redirect('/', RedirectType.replace);
 }
 
@@ -41,7 +42,7 @@ type LabelPrevState = {
     error?: LabelErrors['fieldErrors'];
 };
 
-export async function createLabel(prevState: LabelPrevState | undefined, formData: FormData) {
+export async function createLabel(prevState: LabelPrevState, formData: FormData) {
     const data = Object.fromEntries(formData.entries());
     const result = LabelSchema.safeParse(data);
 
@@ -59,8 +60,8 @@ export async function createLabel(prevState: LabelPrevState | undefined, formDat
             body: JSON.stringify(result.data),
         });
 
-        revalidatePath('/');
-        return { message: response.json(), error: undefined };
+        revalidatePath(`/task/${data.task_id}`);
+        return { message: await response.json(), error: undefined };
     } catch (error) {
         return { message: 'Server error: Label creation failed', error: undefined };
     } finally {

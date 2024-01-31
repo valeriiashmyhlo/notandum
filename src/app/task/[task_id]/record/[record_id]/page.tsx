@@ -34,27 +34,18 @@ export default function Record({ params }: { params: RecordProps }) {
 
         fetchRecord();
     }, [params.record_id]);
-    // const [state, formAction] = useFormState(createLabel, initialState);
+    const [state, formAction] = useFormState(createLabel, initialState);
 
     if (!record) {
         return;
     }
-
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        startTransition(() => {
-            const formData = new FormData(event.currentTarget);
-            createLabel(initialState, formData);
-        });
-    };
 
     return (
         <div className="p-4 my-8 bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 lg:p-8 w-full max-w-5xl">
             <h2 className="mb-2 text-lg font-semibold text-gray-900">Record:</h2>
             <ul className="space-y-1 text-gray-500 list-inside">
                 <li className="flex items-center">
-                    <form onSubmit={handleSubmit} className="flex flex-col">
-                        {/* <form action={formAction} className="flex flex-col"> */}
+                    <form action={formAction} className="flex flex-col">
                         <input type="hidden" name="record_id" value={record.id} />
                         <input type="hidden" name="task_id" value={params.task_id} />
                         <input type="hidden" name="content" value={JSON.stringify(selected)} />

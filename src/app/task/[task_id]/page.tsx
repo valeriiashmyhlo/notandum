@@ -1,25 +1,25 @@
-'use client';
-
 import { Task } from '../../types';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { getTask } from '@/app/actions';
 import Link from 'next/link';
+import { Button } from '@/app/componnets/Button';
 
-export default function Task({ params }: { params: { task_id: string } }) {
-    const [task, setTask] = useState<Task>();
+export default async function Task({ params }: { params: { task_id: string } }) {
+    // const [task, setTask] = useState<Task>();
+    const task = await getTask(params.task_id);
 
-    useEffect(() => {
-        const fetchTask = async (id: string) => {
-            const task = await getTask(id);
-            setTask(task);
-        };
+    // useEffect(() => {
+    //     const fetchTask = async (id: string) => {
+    //         const task = await getTask(id);
+    //         setTask(task);
+    //     };
 
-        fetchTask(params.task_id);
-    }, []);
+    //     fetchTask(params.task_id);
+    // }, [params.task_id]);
 
-    if (!task) {
-        return;
-    }
+    // if (!task) {
+    //     return;
+    // }
 
     return (
         <div className="p-4 my-8 bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 lg:p-8 w-full max-w-5xl">
@@ -36,11 +36,15 @@ export default function Task({ params }: { params: { task_id: string } }) {
                 </div>
             </form>
 
-            <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Records:</h2>
             {task.next_record_id ? (
-                <Link href={`/task/${task.id}/record/${task.next_record_id}`}>Start</Link>
+                <>
+                    <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Records:</h2>
+                    <Link href={`/task/${task.id}/record/${task.next_record_id}`}>
+                        <Button>Start</Button>
+                    </Link>
+                </>
             ) : (
-                <div>Annotated records: ...</div>
+                <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Annotated records: ...</h2>
             )}
         </div>
     );
