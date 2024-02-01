@@ -1,12 +1,18 @@
 import { Task } from '../../types';
-// import { useEffect, useState } from 'react';
-import { getTask } from '@/app/actions';
+import { getExportURL, getTask } from '@/app/actions';
 import Link from 'next/link';
 import { Button } from '@/app/componnets/Button';
 
+const calcTaskProgress = (total_records: number, total_labels: number): string => {
+    const progress = (total_labels / total_records) * 100;
+    return progress > 100 ? '100%' : `${progress}%`;
+};
+
 export default async function Task({ params }: { params: { task_id: string } }) {
-    // const [task, setTask] = useState<Task>();
     const task = await getTask(params.task_id);
+    const taskProgress = calcTaskProgress(task.total_records, task.total_labels);
+
+    // const [task, setTask] = useState<Task>();
 
     // useEffect(() => {
     //     const fetchTask = async (id: string) => {
@@ -36,15 +42,25 @@ export default async function Task({ params }: { params: { task_id: string } }) 
                 </div>
             </form>
 
+            <div className="w-full bg-gray-200 rounded-full h-1.5 mb-4">
+                <div className="bg-blue-600 h-1.5 rounded-full" style={{ width: taskProgress }}></div>
+            </div>
+
             {task.next_record_id ? (
                 <>
-                    <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Records:</h2>
+                    {/* <h2 className="mb-2 text-lg font-semibold text-gray-900">Records:</h2> */}
                     <Link href={`/task/${task.id}/record/${task.next_record_id}`}>
                         <Button>Start</Button>
                     </Link>
                 </>
             ) : (
-                <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Annotated records: ...</h2>
+                <a
+                    href={getExportURL(task.id)}
+                    download
+                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+                >
+                    Export
+                </a>
             )}
         </div>
     );

@@ -6,6 +6,8 @@ import { RedirectType, redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
+const API = 'http://127.0.0.1:8000';
+
 type TaskErrors = z.inferFlattenedErrors<typeof TaskSchema>;
 type TaskPrevState = {
     message: string;
@@ -22,7 +24,7 @@ export async function createTask(prevState: TaskPrevState | undefined, formData:
     }
 
     try {
-        await fetch('http://127.0.0.1:8000/task/create', {
+        await fetch(`${API}/task/create`, {
             method: 'POST',
             body: formData,
         });
@@ -52,7 +54,7 @@ export async function createLabel(prevState: LabelPrevState, formData: FormData)
     }
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/label/create', {
+        const response = await fetch(`${API}/label/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -66,7 +68,6 @@ export async function createLabel(prevState: LabelPrevState, formData: FormData)
         return { message: 'Server error: Label creation failed', error: undefined };
     } finally {
         const task = await getTask(data.task_id.toString());
-
         const path = task.next_record_id ? `/task/${data.task_id}/record/${task.next_record_id}` : '/';
         redirect(path, RedirectType.replace);
     }
@@ -75,7 +76,7 @@ export async function createLabel(prevState: LabelPrevState, formData: FormData)
 export async function getTask(taskId: string) {
     try {
         return (
-            await fetch(`http://127.0.0.1:8000/task/${taskId}`, {
+            await fetch(`${API}/task/${taskId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -87,7 +88,7 @@ export async function getTask(taskId: string) {
 }
 
 export async function upload(file: FormData) {
-    const response = await fetch(`http://127.0.0.1:8000/upload`, {
+    const response = await fetch(`${API}/upload`, {
         method: 'POST',
         body: file,
     });
@@ -113,7 +114,7 @@ export async function deleteTask(
     });
 
     try {
-        await fetch(`http://127.0.0.1:8000/task/${data.id}`, {
+        await fetch(`${API}/task/${data.id}`, {
             method: 'DELETE',
         });
 
@@ -126,7 +127,7 @@ export async function deleteTask(
 
 export const getTaskList = async () => {
     try {
-        return (await fetch('http://127.0.0.1:8000/task/list')).json();
+        return (await fetch(`${API}/task/list`)).json();
     } catch (err) {
         throw new Error('Failed to fetch data');
     }
@@ -134,7 +135,7 @@ export const getTaskList = async () => {
 
 export const getNextRecord = async (id: string) => {
     try {
-        return (await fetch(`http://127.0.0.1:8000/task/${id}/record/next`)).json();
+        return (await fetch(`${API}/task/${id}/record/next`)).json();
     } catch (err) {
         throw new Error('Failed to fetch next record');
     }
@@ -142,8 +143,34 @@ export const getNextRecord = async (id: string) => {
 
 export const getRecord = async (id: string) => {
     try {
-        return (await fetch(`http://127.0.0.1:8000/records/${id}`)).json();
+        return (await fetch(`${API}/records/${id}`)).json();
     } catch (err) {
         throw new Error('Failed to fetch record');
     }
+};
+
+// export const exportRecords = async (
+//     prevState:
+//         | {
+//               message: string;
+//           }
+//         | undefined,
+//     formData: FormData,
+// ) => {
+//     const schema = z.object({
+//         id: z.string().uuid({ message: 'Invalid UUID' }),
+//     });
+//     const data = schema.parse({
+//         id: formData.get('id'),
+//     });
+
+//     try {
+//         const response = await fetch(`${API}/task/${data.id}/labels`);
+//     } catch (err) {
+//         return { message: 'Failed to export records' };
+//     }
+// };
+
+export const getExportURL = (taskId: string) => {
+    return `${API}/task/${taskId}/labels.jsonl`;
 };

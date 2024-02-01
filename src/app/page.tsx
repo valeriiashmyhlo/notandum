@@ -15,7 +15,7 @@ export default async function Home() {
             </div>
 
             {data.length === 0 ? (
-                <div className="relative overflow-x-auto">No tasks created yet</div>
+                <div className="flex justify-center relative overflow-x-auto">No tasks created yet</div>
             ) : (
                 <TaskList data={data} />
             )}

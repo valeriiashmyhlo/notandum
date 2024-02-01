@@ -9,7 +9,7 @@ export const UploadFile: React.FC<UploadFileProps> = ({ onChange }) => (
             htmlFor="dropzone-file"
             className="flex flex-col items-center justify-center w-full h-64 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
         >
-            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+            <div className="flex flex-col items-center justify-center p-5">
                 <svg
                     className="w-8 h-8 mb-4 text-gray-500"
                     aria-hidden="true"
@@ -28,7 +28,9 @@ export const UploadFile: React.FC<UploadFileProps> = ({ onChange }) => (
                 <p className="mb-2 text-sm text-gray-500">
                     <span className="font-semibold">Click to upload</span> or drag and drop
                 </p>
-                <p className="text-xs text-gray-500">Only JSONL for now..</p>
+                <p className="mb-2 text-xs text-gray-500">Only JSONL for now..</p>
+                <p className="text-xs text-gray-500">The file must have the following structure:</p>
+                <code className="text-xs text-gray-500">&#123;"content": "text"&#125;</code>
             </div>
             <input
                 id="dropzone-file"
