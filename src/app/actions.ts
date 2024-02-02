@@ -6,7 +6,7 @@ import { RedirectType, redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
-const API = 'http://127.0.0.1:8000';
+const API_URL = process.env['API_URL'] || 'http://127.0.0.1:8000';
 
 type TaskErrors = z.inferFlattenedErrors<typeof TaskSchema>;
 type TaskPrevState = {
@@ -24,7 +24,7 @@ export async function createTask(prevState: TaskPrevState | undefined, formData:
     }
 
     try {
-        await fetch(`${API}/task/create`, {
+        await fetch(`${API_URL}/task/create`, {
             method: 'POST',
             body: formData,
         });
@@ -54,7 +54,7 @@ export async function createLabel(prevState: LabelPrevState, formData: FormData)
     }
 
     try {
-        const response = await fetch(`${API}/label/create`, {
+        const response = await fetch(`${API_URL}/label/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ export async function createLabel(prevState: LabelPrevState, formData: FormData)
 export async function getTask(taskId: string) {
     try {
         return (
-            await fetch(`${API}/task/${taskId}`, {
+            await fetch(`${API_URL}/task/${taskId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -90,7 +90,7 @@ export async function getTask(taskId: string) {
 }
 
 export async function upload(file: FormData) {
-    const response = await fetch(`${API}/upload`, {
+    const response = await fetch(`${API_URL}/upload`, {
         method: 'POST',
         body: file,
     });
@@ -116,7 +116,7 @@ export async function deleteTask(
     });
 
     try {
-        await fetch(`${API}/task/${data.id}`, {
+        await fetch(`${API_URL}/task/${data.id}`, {
             method: 'DELETE',
         });
 
@@ -129,7 +129,7 @@ export async function deleteTask(
 
 export const getTaskList = async () => {
     try {
-        return (await fetch(`${API}/task/list`)).json();
+        return (await fetch(`${API_URL}/task/list`)).json();
     } catch (err) {
         throw new Error('Failed to fetch data');
     }
@@ -137,7 +137,7 @@ export const getTaskList = async () => {
 
 export const getNextRecord = async (id: string) => {
     try {
-        return (await fetch(`${API}/task/${id}/record/next`)).json();
+        return (await fetch(`${API_URL}/task/${id}/record/next`)).json();
     } catch (err) {
         throw new Error('Failed to fetch next record');
     }
@@ -145,7 +145,7 @@ export const getNextRecord = async (id: string) => {
 
 export const getRecord = async (id: string) => {
     try {
-        return (await fetch(`${API}/records/${id}`)).json();
+        return (await fetch(`${API_URL}/records/${id}`)).json();
     } catch (err) {
         throw new Error('Failed to fetch record');
     }
@@ -174,5 +174,5 @@ export const getRecord = async (id: string) => {
 // };
 
 export const getExportURL = (taskId: string) => {
-    return `${API}/task/${taskId}/labels.jsonl`;
+    return `${API_URL}/task/${taskId}/labels.jsonl`;
 };

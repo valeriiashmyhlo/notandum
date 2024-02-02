@@ -30,7 +30,7 @@ export const UploadFile: React.FC<UploadFileProps> = ({ onChange }) => (
                 </p>
                 <p className="mb-2 text-xs text-gray-500">Only JSONL for now..</p>
                 <p className="text-xs text-gray-500">The file must have the following structure:</p>
-                <code className="text-xs text-gray-500">&#123;"content": "text"&#125;</code>
+                <code className="text-xs text-gray-500">&#123;&quot;content&quot;: &quot;text&quot;&#125;</code>
             </div>
             <input
                 id="dropzone-file"
