@@ -1,6 +1,6 @@
-import { Button } from './componnets/Button';
+import { Button } from './components/Button';
 import Link from 'next/link';
-import { TaskList } from './componnets/TaskList';
+import { TaskList } from './components/TaskList';
 import { getTaskList } from './actions';
 
 export default async function Home() {

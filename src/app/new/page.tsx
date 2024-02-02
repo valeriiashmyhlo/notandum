@@ -2,9 +2,9 @@
 
 import { FormEvent, useEffect, useState } from 'react';
 
-import { Button } from '../componnets/Button';
-import { Input } from '../componnets/Input';
-import { UploadFile } from '../componnets/UploadFile';
+import { Button } from '../components/Button';
+import { Input } from '../components/Input';
+import { UploadFile } from '../components/UploadFile';
 import { createTask } from '../actions';
 import { useFormState } from 'react-dom';
 

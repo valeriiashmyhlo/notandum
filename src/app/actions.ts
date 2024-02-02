@@ -68,7 +68,9 @@ export async function createLabel(prevState: LabelPrevState, formData: FormData)
         return { message: 'Server error: Label creation failed', error: undefined };
     } finally {
         const task = await getTask(data.task_id.toString());
-        const path = task.next_record_id ? `/task/${data.task_id}/record/${task.next_record_id}` : '/';
+        const path = task.next_record_id
+            ? `/task/${data.task_id}/record/${task.next_record_id}`
+            : `/task/${data.task_id}/`;
         redirect(path, RedirectType.replace);
     }
 }

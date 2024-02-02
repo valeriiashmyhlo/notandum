@@ -1,7 +1,8 @@
 import { Task } from '../../types';
 import { getExportURL, getTask } from '@/app/actions';
 import Link from 'next/link';
-import { Button } from '@/app/componnets/Button';
+import { Button } from '@/app/components/Button';
+import { Text } from '@/app/components/Text';
 
 const calcTaskProgress = (total_records: number, total_labels: number): string => {
     const progress = (total_labels / total_records) * 100;
@@ -29,8 +30,10 @@ export default async function Task({ params }: { params: { task_id: string } }) 
 
     return (
         <div className="p-4 my-8 bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 lg:p-8 w-full max-w-5xl">
-            <h3 className="mb-3 text-xl font-medium text-gray-900">{task.name}</h3>
-            <p className="mb-5 text-sm font-medium text-gray-500">{task.description}</p>
+            <h3 className="mb-3 text-xl font-medium text-gray-900">
+                <Text>{task.name}</Text>
+            </h3>
+            <Text className="mb-5 text-sm font-medium text-gray-500">{task.description}</Text>
             <form className="seva-form formkit-form" method="post" data-format="inline" min-width="400 500 600 700 800">
                 <div data-style="clean" className="flex items-end mb-3">
                     <ul className="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>

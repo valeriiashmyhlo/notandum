@@ -3,11 +3,11 @@
 import { createLabel, getRecord } from '@/app/actions';
 import { FormEvent, useEffect, useState, useTransition } from 'react';
 
-import { Button } from '@/app/componnets/Button';
 import { useFormState } from 'react-dom';
 import { Record } from '@/app/types';
-import { TextSelect, Span } from '@/app/componnets/TextSelect';
 import Link from 'next/link';
+import { Span, TextSelect } from '@/app/components/TextSelect';
+import { Button } from '@/app/components/Button';
 
 type RecordProps = {
     record_id: string;
