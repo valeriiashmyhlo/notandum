@@ -1,14 +1,14 @@
 'use client';
 
 import { createLabel, getRecord, getTask } from '@/app/actions';
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useFormState } from 'react-dom';
 import { Record, Task } from '@/app/types';
-import Link from 'next/link';
 import { Span, TextSelect } from '@/app/components/TextSelect';
 import { Button } from '@/app/components/Button';
 import { Text } from '@/app/components/Text';
+import { BackButton } from '@/app/components/BackButton';
 
 type RecordProps = {
     record_id: string;
@@ -54,25 +54,11 @@ export default function Record({ params }: { params: RecordProps }) {
 
     return (
         <div className="p-4 w-full max-w-5xl">
-            <Link
-                href={`/task/${params.task_id}`}
-                className="flex items-center font-medium text-blue-600 hover:underline mb-3"
-            >
-                <svg className="w-3 h-3 ms-2 mr-1 rotate-180" aria-hidden="true" fill="none" viewBox="0 0 14 10">
-                    <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M1 5h12m0 0L9 1m4 4L9 9"
-                    />
-                </svg>
-                Back to task
-            </Link>
+            <BackButton href={`/task/${params.task_id}`}>Back to task</BackButton>
             <div className="flex flex-col bg-white border border-gray-200 rounded-lg shadow-md mt-5 mb-8 sm:p-6 lg:p-8">
                 <p className="text-gray-400 text-xs mb-2">Description:</p>
                 <Text className="text-gray-600 text-sm mb-8">{task.description}</Text>
-                <form action={formAction} className="flex flex-col">
+                <form action={formAction}>
                     <input type="hidden" name="record_id" value={record.id} />
                     <input type="hidden" name="task_id" value={params.task_id} />
                     <input type="hidden" name="content" value={JSON.stringify(selected)} />
@@ -93,14 +79,16 @@ export default function Record({ params }: { params: RecordProps }) {
                             value={selected}
                         />
                     </div>
-                    {/* <div>
-                        {selected.map(({ start, end }, i) => {
-                            return <p key={i}>{text.slice(start, end)}</p>;
-                        })}
-                    </div> */}
-                    <Button type="submit" className="self-end" disabled={!selected.length}>
-                        Next
-                    </Button>
+                    <div className="flex space-between">
+                        {/* <div>
+                            {selected.map(({ start, end }, i) => {
+                                return <p key={i}>{text.slice(start, end)}</p>;
+                            })}
+                        </div> */}
+                        <Button type="submit" className="self-end" disabled={!selected.length}>
+                            Next
+                        </Button>
+                    </div>
                 </form>
             </div>
             <div className="text-xs sm:pl-6 lg:pl-8">
