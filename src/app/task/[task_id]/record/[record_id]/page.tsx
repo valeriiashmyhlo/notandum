@@ -94,8 +94,8 @@ export default function Record({ params }: { params: RecordProps }) {
                         />
                     </div>
                     <div>
-                        {selected.map(({ start, end }) => {
-                            return <p>{text.slice(start, end)}</p>;
+                        {selected.map(({ start, end }, i) => {
+                            return <p key={i}>{text.slice(start, end)}</p>;
                         })}
                     </div>
                     <Button type="submit" className="self-end" disabled={!selected.length}>
