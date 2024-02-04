@@ -72,7 +72,7 @@ export default function Record({ params }: { params: RecordProps }) {
             <div className="flex flex-col bg-white border border-gray-200 rounded-lg shadow-md mt-5 mb-8 sm:p-6 lg:p-8">
                 <p className="text-gray-400 text-xs mb-2">Description:</p>
                 <Text className="text-gray-600 text-sm mb-8">{task.description}</Text>
-                <form action={formAction}>
+                <form action={formAction} className="flex flex-col">
                     <input type="hidden" name="record_id" value={record.id} />
                     <input type="hidden" name="task_id" value={params.task_id} />
                     <input type="hidden" name="content" value={JSON.stringify(selected)} />
@@ -93,11 +93,11 @@ export default function Record({ params }: { params: RecordProps }) {
                             value={selected}
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         {selected.map(({ start, end }, i) => {
                             return <p key={i}>{text.slice(start, end)}</p>;
                         })}
-                    </div>
+                    </div> */}
                     <Button type="submit" className="self-end" disabled={!selected.length}>
                         Next
                     </Button>
