@@ -86,7 +86,7 @@ const mergeOverlaps = (spans: Span[]) => {
 
 const Mark = (props: MarkProps) => (
     <mark
-        // style={{ backgroundColor: props.color || '#84d2ff', padding: '0 4px' }}
+        className="bg-blue-600 text-white"
         data-start={props.start}
         data-end={props.end}
         onClick={() => props.onClick({ start: props.start, end: props.end })}
