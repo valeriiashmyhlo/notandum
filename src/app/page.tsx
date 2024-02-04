@@ -8,7 +8,7 @@ export default async function Home() {
 
     return (
         <div className="w-full">
-            <div className="flex w-full justify-center mb-16">
+            <div className="flex w-full justify-center mb-6">
                 <Link href="/new">
                     <Button>Create new task</Button>
                 </Link>
