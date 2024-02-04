@@ -6,6 +6,7 @@ import { RedirectType, redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
+console.log('===========', process.env['API_URL']);
 const API_URL = process.env['API_URL'] || 'http://127.0.0.1:8000';
 
 type TaskErrors = z.inferFlattenedErrors<typeof TaskSchema>;
