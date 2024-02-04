@@ -53,16 +53,16 @@ export default function Record({ params }: { params: RecordProps }) {
     }
 
     return (
-        <div className="p-4 w-full max-w-5xl">
+        <div className="w-full max-w-5xl">
             <BackButton href={`/task/${params.task_id}`}>Back to task</BackButton>
             <div className="flex flex-col bg-white border border-gray-200 rounded-lg shadow-md mt-5 mb-8 sm:p-6 lg:p-8">
                 <p className="text-gray-400 text-xs mb-2">Description:</p>
-                <Text className="text-gray-600 text-sm mb-8">{task.description}</Text>
+                <Text className="text-gray-600 text-sm mb-4">{task.description}</Text>
                 <form action={formAction}>
                     <input type="hidden" name="record_id" value={record.id} />
                     <input type="hidden" name="task_id" value={params.task_id} />
                     <input type="hidden" name="content" value={JSON.stringify(selected)} />
-                    <div className="flex direction-column items-center mb-8">
+                    <div className="flex direction-column items-center mb-4">
                         {/* <svg
                             className={`w-3.5 h-3.5 me-2 flex-shrink-0 ${
                                 selected.length ? 'text-green-500' : 'text-gray-500'
@@ -94,7 +94,7 @@ export default function Record({ params }: { params: RecordProps }) {
             <div className="text-xs sm:pl-6 lg:pl-8">
                 <h4 className="mb-2 font-semibold text-gray-600">Actions:</h4>
                 <ul className="max-w-md space-y-1 text-gray-500 list-disc list-inside">
-                    <li>To annotate select a text by holding a mouse left key.</li>
+                    <li>To annotate select a text by holding a mouse left button.</li>
                     <li>To delete selection click on a highlighted section.</li>
                     <li>Selection can be done only within the bordered section.</li>
                 </ul>
