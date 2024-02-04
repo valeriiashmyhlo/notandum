@@ -13,26 +13,13 @@ export default async function Task({ params }: { params: { task_id: string } }) 
     const task = await getTask(params.task_id);
     const taskProgress = calcTaskProgress(task.total_records, task.total_labels);
 
-    // const [task, setTask] = useState<Task>();
-
-    // useEffect(() => {
-    //     const fetchTask = async (id: string) => {
-    //         const task = await getTask(id);
-    //         setTask(task);
-    //     };
-
-    //     fetchTask(params.task_id);
-    // }, [params.task_id]);
-
-    // if (!task) {
-    //     return;
-    // }
-
     return (
         <div className="p-4 my-8 bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 lg:p-8 w-full max-w-5xl">
+            <p className="text-gray-400 text-xs">Name:</p>
             <h3 className="mb-3 text-xl font-medium text-gray-900">
                 <Text>{task.name}</Text>
             </h3>
+            <p className="text-gray-400 text-xs mb-2">Description:</p>
             <Text className="mb-5 text-sm font-medium text-gray-500">{task.description}</Text>
             <form className="seva-form formkit-form" method="post" data-format="inline" min-width="400 500 600 700 800">
                 <div data-style="clean" className="flex items-end mb-3">
@@ -44,18 +31,13 @@ export default async function Task({ params }: { params: { task_id: string } }) 
                     ></div>
                 </div>
             </form>
-
             <div className="w-full bg-gray-200 rounded-full h-1.5 mb-4">
                 <div className="bg-blue-600 h-1.5 rounded-full" style={{ width: taskProgress }}></div>
             </div>
-
             {task.next_record_id ? (
-                <>
-                    {/* <h2 className="mb-2 text-lg font-semibold text-gray-900">Records:</h2> */}
-                    <Link href={`/task/${task.id}/record/${task.next_record_id}`}>
-                        <Button>Start</Button>
-                    </Link>
-                </>
+                <Link href={`/task/${task.id}/record/${task.next_record_id}`}>
+                    <Button>Start</Button>
+                </Link>
             ) : (
                 <a
                     href={getExportURL(task.id)}

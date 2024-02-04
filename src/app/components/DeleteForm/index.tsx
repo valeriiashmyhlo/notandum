@@ -16,7 +16,7 @@ function DeleteButton() {
     );
 }
 
-export function DeleteForm({ id, className }: { id: string; className: string }) {
+export function DeleteForm({ id, className }: { id: string; className?: string }) {
     const [state, formAction] = useFormState(deleteTask, initialState);
 
     return (

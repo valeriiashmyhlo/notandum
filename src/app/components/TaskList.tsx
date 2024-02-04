@@ -10,7 +10,7 @@ export const TaskList = ({ data }: { data: Task[] }) => (
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="w-1/6 px-6 py-3">
                         Task name
                     </th>
                     <th scope="col" className="px-6 py-3">
@@ -32,11 +32,8 @@ export const TaskList = ({ data }: { data: Task[] }) => (
                         <td className="px-6 py-4">
                             <Text>{task.description}</Text>
                         </td>
-                        <td className="flex items-center px-6 py-4">
-                            {/* <Link href={`/task/${task.id}`} className="font-medium text-blue-600 hover:underline">
-                                    Edit
-                                </Link> */}
-                            <DeleteForm id={task.id} className="ms-3" />
+                        <td className="px-6 py-4">
+                            <DeleteForm id={task.id} />
                         </td>
                     </tr>
                 ))}

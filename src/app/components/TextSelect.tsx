@@ -119,6 +119,7 @@ type TextBaseProps<T> = {
     value: T[];
     onChange: (value: T[]) => any;
     getSpan?: (span: TextSpan) => T;
+    // className?: string;
 };
 
 type TextSelectProps<T> = React.HTMLAttributes<HTMLDivElement> & TextBaseProps<T>;
@@ -164,7 +165,7 @@ export const TextSelect = <T extends Span>(props: TextSelectProps<T>) => {
     const { content, value, style } = props;
     const splits = splitWithOffsets(content, value);
     return (
-        <div style={style} onMouseUp={handleMouseUp}>
+        <div className="bg-gray border border-gray-200 p-1 pr-0" style={style} onMouseUp={handleMouseUp}>
             {splits.map((split) => (
                 <Split key={`${split.start}-${split.end}`} {...split} onClick={handleSplitClick} />
             ))}
