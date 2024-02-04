@@ -25,7 +25,6 @@ export default function Record({ params }: { params: RecordProps }) {
     const [task, setTask] = useState<Task | null>(null);
     const [text, setText] = useState<string>('');
     const [selected, setSelected] = useState<Span[]>([]);
-    // const [isPending, startTransition] = useTransition();
 
     useEffect(() => {
         const fetchRecord = async () => {
@@ -78,7 +77,7 @@ export default function Record({ params }: { params: RecordProps }) {
                     <input type="hidden" name="task_id" value={params.task_id} />
                     <input type="hidden" name="content" value={JSON.stringify(selected)} />
                     <div className="flex direction-column items-center mb-8">
-                        <svg
+                        {/* <svg
                             className={`w-3.5 h-3.5 me-2 flex-shrink-0 ${
                                 selected.length ? 'text-green-500' : 'text-gray-500'
                             }`}
@@ -87,17 +86,22 @@ export default function Record({ params }: { params: RecordProps }) {
                             viewBox="0 0 20 20"
                         >
                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                        </svg>
+                        </svg> */}
                         <TextSelect
                             content={text}
                             onChange={(value) => setSelected(value as Span[])}
                             value={selected}
                         />
                     </div>
+                    <div>
+                        {selected.map(({ start, end }) => {
+                            return <p>{text.slice(start, end)}</p>;
+                        })}
+                    </div>
+                    <Button type="submit" className="self-end" disabled={!selected.length}>
+                        Next
+                    </Button>
                 </form>
-                <Button type="submit" className="self-end" disabled={!selected.length}>
-                    Next
-                </Button>
             </div>
             <div className="text-xs sm:pl-6 lg:pl-8">
                 <h4 className="mb-2 font-semibold text-gray-600">Actions:</h4>
