@@ -128,7 +128,6 @@ export async function deleteTask(
 }
 
 export const getTaskList = async () => {
-    console.log('====', API_URL);
     try {
         return (
             await fetch(`${API_URL}/task/list`, {
