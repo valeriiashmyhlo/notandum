@@ -128,9 +128,14 @@ export async function deleteTask(
 }
 
 export const getTaskList = async () => {
-    console.log('==========', API_URL);
     try {
-        return (await fetch(`${API_URL}/task/list`)).json();
+        return (
+            await fetch(`${API_URL}/task/list`, {
+                headers: {
+                    'x-vercel-skip-toolbar': '1',
+                },
+            })
+        ).json();
     } catch (err) {
         throw new Error('Failed to fetch data');
     }
