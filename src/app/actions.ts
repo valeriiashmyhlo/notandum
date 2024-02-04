@@ -157,28 +157,6 @@ export const getRecord = async (id: string) => {
     }
 };
 
-// export const exportRecords = async (
-//     prevState:
-//         | {
-//               message: string;
-//           }
-//         | undefined,
-//     formData: FormData,
-// ) => {
-//     const schema = z.object({
-//         id: z.string().uuid({ message: 'Invalid UUID' }),
-//     });
-//     const data = schema.parse({
-//         id: formData.get('id'),
-//     });
-
-//     try {
-//         const response = await fetch(`${API}/task/${data.id}/labels`);
-//     } catch (err) {
-//         return { message: 'Failed to export records' };
-//     }
-// };
-
 export const getExportURL = (taskId: string) => {
     return `${API_URL}/task/${taskId}/labels.jsonl`;
 };
