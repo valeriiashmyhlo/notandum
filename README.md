@@ -6,11 +6,11 @@ To run UI:
 ```
 docker-compose up
 ```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 To run API:
-Follow the instructions in the [API](https://github.com/valeriiashmyhlo/notandum-api) repository.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Follow the instructions in the [API](https://github.com/valeriiashmyhlo/notandum-api) repository.
 
 ### Deploy
 
