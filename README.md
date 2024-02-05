@@ -2,18 +2,16 @@ This is a UI for a notation tool build using [Next.js](https://nextjs.org/).
 
 ### Run locally
 
-Install dependencies:
+To run UI:
 ```
-npm install
+docker-compose up
 ```
 
-Start server:
-```
-npm run dev
-```
+To run API:
+Follow the instructions in the [API](https://github.com/valeriiashmyhlo/notandum-api)
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ### Deploy
 
-It is deployed on [Vercel](https://notandum-i7hq8schu-valeriiashmyhlos-projects.vercel.app/).
+Deployed on [Vercel](https://notandum-i7hq8schu-valeriiashmyhlos-projects.vercel.app/).
