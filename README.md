@@ -8,7 +8,7 @@ docker-compose up
 ```
 
 To run API:
-Follow the instructions in the [API](https://github.com/valeriiashmyhlo/notandum-api)
+Follow the instructions in the [API](https://github.com/valeriiashmyhlo/notandum-api) repository.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
