@@ -56,7 +56,6 @@ export default function CreateNewTask() {
                 <Button type="submit" className="-mx-3">
                     Create
                 </Button>
-                {/* <div style={{ color: 'red' }}>{state.message}</div> */}
             </div>
         </form>
     );

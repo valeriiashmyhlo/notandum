@@ -157,6 +157,6 @@ export const getRecord = async (id: string) => {
     }
 };
 
-export const getExportURL = (taskId: string) => {
-    return `${API_URL}/task/${taskId}/labels.jsonl`;
+export const exportLabels = (taskId: string) => {
+    return fetch(`${API_URL}/task/${taskId}/labels.jsonl`);
 };

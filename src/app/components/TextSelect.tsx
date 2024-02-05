@@ -119,7 +119,6 @@ type TextBaseProps<T> = {
     value: T[];
     onChange: (value: T[]) => any;
     getSpan?: (span: TextSpan) => T;
-    // className?: string;
 };
 
 type TextSelectProps<T> = React.HTMLAttributes<HTMLDivElement> & TextBaseProps<T>;

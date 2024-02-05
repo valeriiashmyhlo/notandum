@@ -58,37 +58,27 @@ export default function Record({ params }: { params: RecordProps }) {
             <div className="flex flex-col bg-white border border-gray-200 rounded-lg shadow-md mt-5 mb-8 sm:p-6 lg:p-8">
                 <p className="text-gray-400 text-xs mb-2">Description:</p>
                 <Text className="text-gray-600 text-sm mb-4">{task.description}</Text>
-                <form action={formAction}>
+                <form action={formAction} className="flex flex-col">
                     <input type="hidden" name="record_id" value={record.id} />
                     <input type="hidden" name="task_id" value={params.task_id} />
                     <input type="hidden" name="content" value={JSON.stringify(selected)} />
                     <div className="flex direction-column items-center mb-4">
-                        {/* <svg
-                            className={`w-3.5 h-3.5 me-2 flex-shrink-0 ${
-                                selected.length ? 'text-green-500' : 'text-gray-500'
-                            }`}
-                            aria-hidden="true"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                        </svg> */}
                         <TextSelect
                             content={text}
                             onChange={(value) => setSelected(value as Span[])}
                             value={selected}
                         />
                     </div>
-                    <div className="flex space-between">
-                        {/* <div>
+                    {/* <div className="flex space-between">
+                        <div>
                             {selected.map(({ start, end }, i) => {
                                 return <p key={i}>{text.slice(start, end)}</p>;
                             })}
-                        </div> */}
-                        <Button type="submit" className="self-end" disabled={!selected.length}>
-                            Next
-                        </Button>
-                    </div>
+                        </div>
+                    </div> */}
+                    <Button type="submit" className="self-end" disabled={!selected.length}>
+                        Next
+                    </Button>
                 </form>
             </div>
             <div className="text-xs sm:pl-6 lg:pl-8">

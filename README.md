@@ -1,14 +1,14 @@
-This is a UI for a notation tool build using [Next.js](https://nextjs.org/).
+This is a UI for a annotation tool build using [Next.js](https://nextjs.org/).
 
 ### Run locally
 
-To run UI:
+#### To run UI:
 ```
 docker-compose up
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-To run API:
+#### To run API:
 
 Follow the instructions in the [API](https://github.com/valeriiashmyhlo/notandum-api) repository.
 
