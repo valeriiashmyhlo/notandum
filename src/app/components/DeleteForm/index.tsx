@@ -6,7 +6,7 @@ const initialState = {
     message: '',
 };
 
-function DeleteButton() {
+const DeleteButton = () => {
     const { pending } = useFormStatus();
 
     return (
@@ -14,9 +14,9 @@ function DeleteButton() {
             Delete
         </button>
     );
-}
+};
 
-export function DeleteForm({ id, className }: { id: string; className?: string }) {
+export const DeleteForm = ({ id, className }: { id: string; className?: string }) => {
     const [state, formAction] = useFormState(deleteTask, initialState);
 
     return (
@@ -28,4 +28,4 @@ export function DeleteForm({ id, className }: { id: string; className?: string }
             </p>
         </form>
     );
-}
+};

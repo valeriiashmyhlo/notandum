@@ -44,11 +44,7 @@ export default function Record({ params }: { params: RecordProps }) {
     }, [params.task_id, params.record_id]);
     const [state, formAction] = useFormState(createLabel, initialState);
 
-    if (!record) {
-        return;
-    }
-
-    if (!task) {
+    if (!record || !task) {
         return;
     }
 
