@@ -1,6 +1,6 @@
 'use server';
 
-import { LabelSchema, TaskSchema } from '@/validations';
+import { LabelSchema, TaskSchema } from './validations';
 import { RedirectType, redirect } from 'next/navigation';
 
 import { revalidatePath } from 'next/cache';

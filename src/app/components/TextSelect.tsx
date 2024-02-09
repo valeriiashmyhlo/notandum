@@ -1,10 +1,7 @@
+import { Range, merge_overlaps } from '../toyWasm';
+
 import React from 'react';
 import sortBy from 'lodash.sortby';
-
-export type Span = {
-    start: number;
-    end: number;
-};
 
 interface MarkProps {
     key: string;
@@ -16,12 +13,13 @@ interface MarkProps {
     onClick: (a: any) => any;
 }
 
-const splitWithOffsets = (text: string, offsets: Span[]) => {
+const splitWithOffsets = (text: string, offsets: Range[]) => {
     let lastEnd = 0;
     const splits = [];
 
-    for (let offset of sortBy(offsets, (o: any) => o.start)) {
+    for (let offset of sortBy(offsets, (o: Range) => o.start)) {
         const { start, end } = offset;
+
         if (lastEnd < start) {
             splits.push({
                 start: lastEnd,
@@ -30,7 +28,8 @@ const splitWithOffsets = (text: string, offsets: Span[]) => {
             });
         }
         splits.push({
-            ...offset,
+            start,
+            end,
             mark: true,
             content: text.slice(start, end),
         });
@@ -71,19 +70,6 @@ const selectionIsBackwards = (selection: Selection) => {
     return backward;
 };
 
-const mergeOverlaps = (spans: Span[]) => {
-    const sorted = sortBy(spans, (span) => span.start);
-    const merged = sorted.reduce((acc: Span[], right: Span) => {
-        const left = acc[acc.length - 1];
-        if (left && left.end >= right.start) {
-            return [...acc.slice(0, acc.length - 1), { start: left.start, end: Math.max(left.end, right.end) }];
-        }
-        return [...acc, right];
-    }, []);
-
-    return merged;
-};
-
 const Mark = (props: MarkProps) => (
     <mark
         className="bg-blue-600 text-white"
@@ -110,7 +96,7 @@ const Split = (props: any) => {
     );
 };
 
-interface TextSpan extends Span {
+interface TextRange extends Range {
     text: string;
 }
 
@@ -118,15 +104,15 @@ type TextBaseProps<T> = {
     content: string;
     value: T[];
     onChange: (value: T[]) => any;
-    getSpan?: (span: TextSpan) => T;
+    getSpan?: (span: TextRange) => T;
 };
 
 type TextSelectProps<T> = React.HTMLAttributes<HTMLDivElement> & TextBaseProps<T>;
 
-export const TextSelect = <T extends Span>(props: TextSelectProps<T>) => {
-    const getSpan = (span: TextSpan): T => {
+export const TextSelect = <T extends Range>(props: TextSelectProps<T>) => {
+    const getSpan = (span: TextRange): Range => {
         if (props.getSpan) return props.getSpan(span) as T;
-        return { start: span.start, end: span.end } as T;
+        return new Range(span.start, span.end);
     };
 
     const handleMouseUp = () => {
@@ -147,9 +133,17 @@ export const TextSelect = <T extends Span>(props: TextSelectProps<T>) => {
             [start, end] = [end, start];
         }
 
-        props.onChange(
-            mergeOverlaps([...props.value, getSpan({ start, end, text: props.content.slice(start, end) })]) as T[],
-        );
+        const mergedRanges = merge_overlaps([
+            ...props.value,
+            getSpan({
+                start,
+                end,
+                text: props.content.slice(start, end),
+                free: () => void 0,
+            }),
+        ]);
+
+        props.onChange(mergedRanges as T[]);
 
         window.getSelection()?.empty();
     };

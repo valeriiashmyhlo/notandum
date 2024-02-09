@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react';
 
 import { useFormState } from 'react-dom';
 import { Record, Task } from '@/app/types';
-import { Span, TextSelect } from '@/app/components/TextSelect';
+import { TextSelect } from '@/app/components/TextSelect';
 import { Button } from '@/app/components/Button';
 import { Text } from '@/app/components/Text';
 import { BackButton } from '@/app/components/BackButton';
+import { Range } from '../../../../toyWasm';
 
 type RecordProps = {
     record_id: string;
@@ -24,7 +25,7 @@ export default function Record({ params }: { params: RecordProps }) {
     const [record, setRecord] = useState<Record | null>(null);
     const [task, setTask] = useState<Task | null>(null);
     const [text, setText] = useState<string>('');
-    const [selected, setSelected] = useState<Span[]>([]);
+    const [selected, setSelected] = useState<Range[]>([]);
 
     useEffect(() => {
         const fetchRecord = async () => {
@@ -61,17 +62,10 @@ export default function Record({ params }: { params: RecordProps }) {
                     <div className="flex direction-column items-center mb-4">
                         <TextSelect
                             content={text}
-                            onChange={(value) => setSelected(value as Span[])}
+                            onChange={(value) => setSelected(value as Range[])}
                             value={selected}
                         />
                     </div>
-                    {/* <div className="flex space-between">
-                        <div>
-                            {selected.map(({ start, end }, i) => {
-                                return <p key={i}>{text.slice(start, end)}</p>;
-                            })}
-                        </div>
-                    </div> */}
                     <Button type="submit" className="self-end" disabled={!selected.length}>
                         Next
                     </Button>

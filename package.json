@@ -13,6 +13,7 @@
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
+    "toy-wasm": "file:toy-wasm/pkg",
     "zod": "^3.22.4",
     "zod-validation-error": "^2.1.0"
   },
