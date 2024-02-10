@@ -37,6 +37,38 @@ pub fn merge_overlaps(ranges: Vec<Range>) -> Vec<Range> {
     merged
 }
 
-// 1. no overlap
-// 2. right inside left
-// 3. overlap
+#[cfg(test)]
+mod tests_merge_overlaps {
+    use super::*;
+
+    #[test]
+    fn it_should_merge_overlaps() {
+        let ranges = vec![
+            Range::new(1, 3),
+            Range::new(2, 4),
+            Range::new(5, 7),
+            Range::new(6, 8),
+        ];
+        let merged = merge_overlaps(ranges);
+        assert_eq!(merged.len(), 2);
+        assert_eq!(merged[0].start, 1);
+        assert_eq!(merged[0].end, 4);
+        assert_eq!(merged[1].start, 5);
+        assert_eq!(merged[1].end, 8);
+    }
+
+    #[test]
+    fn it_should_merge_if_one_range_inside_another() {
+        let ranges = vec![
+            Range::new(1, 3),
+            Range::new(2, 4),
+            Range::new(5, 7),
+            Range::new(6, 8),
+            Range::new(1, 8),
+        ];
+        let merged = merge_overlaps(ranges);
+        assert_eq!(merged.len(), 1);
+        assert_eq!(merged[0].start, 1);
+        assert_eq!(merged[0].end, 8);
+    }
+}
